@@ -88,7 +88,7 @@ class AutoCutEngine:
             if current_time - last_audio > 0.5:
                 if not self.audio_fail:
                     self.audio_fail = True
-                    self.state.set(SwitchState.WIDE)
+                    self.state.set(SwitchState.WIDE, current_time)
                     self.osc.wide("audio_fail")
                     logger.warning("Audio failure detected")
                 return {"state": self.state.state, "audio_fail": True}
@@ -121,16 +121,16 @@ class AutoCutEngine:
             wide, reason = self.decision.should_wide(active, silence)
 
             if self.state.state == SwitchState.WIDE:
-                if self.state.duration() >= self.cfg["wide"].get("min_duration_s", 3):
+                if self.state.duration(current_time) >= self.cfg["wide"].get("min_duration_s", 3):
                     if dominant:
-                        self.state.set(SwitchState.ACTIVE)
+                        self.state.set(SwitchState.ACTIVE, current_time)
                         cam = next(m["camera"] for m in self.cfg["mics"] if m["id"] == dominant)
                         self.osc.cam(cam)
             elif wide:
-                self.state.set(SwitchState.WIDE)
+                self.state.set(SwitchState.WIDE, current_time)
                 self.osc.wide(reason)
             elif dominant:
-                self.state.set(SwitchState.ACTIVE)
+                self.state.set(SwitchState.ACTIVE, current_time)
                 cam = next(m["camera"] for m in self.cfg["mics"] if m["id"] == dominant)
                 self.osc.cam(cam)
 

@@ -18,6 +18,9 @@ class DecisionEngine:
     def should_wide(self, active_mics, silence_duration):
         """
         Determine if we should switch to wide shot.
+        Args:
+            active_mics: List of currently active microphone IDs
+            silence_duration: Duration of silence in seconds
         Returns: (should_wide, reason)
         """
         try:

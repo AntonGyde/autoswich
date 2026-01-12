@@ -10,7 +10,11 @@ class MicManager:
     def evaluate(self, levels):
         """
         Evaluate microphone levels and determine which is dominant.
-        Returns: (any_active, dominant_id, scores, dominance_score)
+        Returns: (any_active, dominant, scores, dominance_score)
+            - any_active: Boolean indicating if any microphone is active
+            - dominant: ID of the dominant microphone (or None if no dominant mic)
+            - scores: Dictionary mapping mic IDs to their scores
+            - dominance_score: Score value of the dominant microphone
         """
         try:
             scores = {}
