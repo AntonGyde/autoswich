@@ -1,6 +1,5 @@
-
-fastapi
-uvicorn
-sounddevice
-numpy
-python-osc
+fastapi==0.109.1
+uvicorn==0.22.0
+sounddevice==0.4.6
+numpy==1.26.4
+python-osc==1.8.0
