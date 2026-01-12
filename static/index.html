@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{background:#111;color:#eee;font-family:sans-serif}
+.mic{margin:10px;padding:10px;border:1px solid #333}
+button{margin-top:6px}
+</style>
+</head>
+<body>
+<h1>DM3 AutoCut v2.3.3</h1>
+<div id="mics"></div>
+
+<script>
+const mics=["host","g1","g2","g3"]
+
+async function poll(){
+ const s = await (await fetch('/api/status')).json()
+ const root=document.getElementById('mics')
+ root.innerHTML=''
+ if(!s.calibration) return
+
+ for(const id of mics){
+  const r=s.calibration[id]
+  root.innerHTML+=`
+   <div class="mic">
+    <b>${id}</b><br>
+    ${r?JSON.stringify(r):'No data'}
+    <br>
+    <button onclick="cal('${id}')">Calibrate</button>
+    <button onclick="apply('${id}')">Apply</button>
+   </div>`
+ }
+}
+
+async function cal(id){
+ await fetch('/api/calibrate/'+id,{method:'POST'})
+}
+
+async function apply(id){
+ await fetch('/api/apply/'+id,{method:'POST'})
+}
+
+setInterval(poll,500)
+</script>
+</body>
+</html>
