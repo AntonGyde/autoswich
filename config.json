@@ -1,5 +1,5 @@
 {
-  "audio_device": null,
+  "audio_device": 0,
   "audio_channels": 16,
   "automix": {
     "enabled": true
